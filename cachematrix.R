@@ -1,7 +1,13 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These functions work as a pair to manage the storage of the
+##  inverse of a matrix and avoid re-calculating it if that's
+##  avoidable.
 
-## Write a short comment describing this function
+
+## Can be used to create a wrapper object around a matrix with
+##  the primary purpose being to hold the matrix and the inverse
+##  of that matrix if the cacheSolve matrix has been used to
+##  calculate it. The wrapper object, a list, also contains
+##  functions to get and set the matrix and inverse stored within.
 
 makeCacheMatrix <- function(dataMatrix = matrix()) {
   inv = NULL
@@ -17,17 +23,27 @@ makeCacheMatrix <- function(dataMatrix = matrix()) {
 }
 
 
-## Write a short comment describing this function
+## Used to retrieve or calculate the inverse of a matrix stored
+##  within a wrapper list created by the makeCacheMatrix function.
 
 cacheSolve <- function(matrixWrapper, ...) {
+  
+  #Retrieve the inverse stored in the wrapper object
   inverse = matrixWrapper$getInverse()
+  
   if (!is.null(inverse)) {
+    #Return the pre-calculated inverse
     message("getting cached data")
     return(inverse)
   }
+  
+  # No inverse was found, so calculate it
   message("calculating data")
   dataMatrix = matrixWrapper$get()
   inverse = solve(dataMatrix)
+  
+  # Store the caluclated inverse for future use
   matrixWrapper$setInverse(inverse)
+  
   inverse
 }
