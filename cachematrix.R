@@ -10,14 +10,22 @@
 ##  functions to get and set the matrix and inverse stored within.
 
 makeCacheMatrix <- function(dataMatrix = matrix()) {
+  # Variable for storing the matrix's inverse
   inv = NULL
+  
+  # Getters and setters for the stored matrix
   setFunc = function(newVal) {
     dataMatrix <<- newVal
-    inv <<- NULL
+    inv <<- NULL # New matrix means old inverse isn't valid anymore
   }
   getFunc = function() dataMatrix
+  
+  # Getters and setters for the stored inverse
   setInverseFunc = function(inverse) inv <<- inverse
   getInverseFunc = function() inv
+  
+  # Return a list wrapper object giving access to the matrix
+  #  and its inverse
   list(set = setFunc, get = getFunc,
        setInverse = setInverseFunc, getInverse = getInverseFunc)
 }
